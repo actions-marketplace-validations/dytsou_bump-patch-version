@@ -30,7 +30,7 @@ This repository is a **composite GitHub Action** that:
 
 Primary entry for consumers:
 
-`dytsou/bump-patch-version@v0` (prefer pinning the commit SHA in production)
+`dytsou/bump-patch-version@v1` (prefer pinning the commit SHA in production)
 
 Layout:
 
