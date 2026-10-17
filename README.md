@@ -46,7 +46,7 @@ jobs:
           fetch-depth: 0
           fetch-tags: true
 
-      - uses: dytsou/bump-patch-version@v0.1.0
+      - uses: dytsou/bump-patch-version@v0
 ```
 
 3. **Run the workflow** from the Actions tab — a PR opens with the bumped `package.json`.
@@ -56,19 +56,21 @@ jobs:
 Defaults are enough for a root `package.json` on `main`:
 
 ```yaml
-- uses: dytsou/bump-patch-version@v0.1.0
+- uses: dytsou/bump-patch-version@v0
 ```
+
+Pin the major tag (`@v0`) for floating updates within this major, or pin `@v0.1.1` for a fixed release.
 
 ### Pin by commit SHA (recommended)
 
 ```yaml
-- uses: dytsou/bump-patch-version@2e33168f7243c56c99aab840c76f9b6771fc4292 # v0.1.0
+- uses: dytsou/bump-patch-version@<commit-sha> # v0.1.1
 ```
 
 ### Example (custom path and labels)
 
 ```yaml
-- uses: dytsou/bump-patch-version@v0.1.0
+- uses: dytsou/bump-patch-version@v0
   with:
     package-json-path: packages/app/package.json
     base-branch: main
@@ -84,7 +86,7 @@ Defaults are enough for a root `package.json` on `main`:
 
 ## Action inputs
 
-Composite Action: `dytsou/bump-patch-version@v0.1.0`
+Composite Action: `dytsou/bump-patch-version@v0`
 
 
 | Name | Required | Default | Description |

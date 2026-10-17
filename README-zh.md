@@ -46,7 +46,7 @@ jobs:
           fetch-depth: 0
           fetch-tags: true
 
-      - uses: dytsou/bump-patch-version@v0.1.0
+      - uses: dytsou/bump-patch-version@v0
 ```
 
 3. **到 Actions 分頁跑 workflow** — 會開一支含 bumped `package.json` 的 PR。
@@ -56,19 +56,21 @@ jobs:
 根目錄 `package.json`、base 為 `main` 時，用預設即可：
 
 ```yaml
-- uses: dytsou/bump-patch-version@v0.1.0
+- uses: dytsou/bump-patch-version@v0
 ```
+
+Major tag（`@v0`）會跟著同 major 浮動；固定版本請用 `@v0.1.1`。
 
 ### 建議用 commit SHA pin
 
 ```yaml
-- uses: dytsou/bump-patch-version@2e33168f7243c56c99aab840c76f9b6771fc4292 # v0.1.0
+- uses: dytsou/bump-patch-version@<commit-sha> # v0.1.1
 ```
 
 ### 範例（自訂路徑與 labels）
 
 ```yaml
-- uses: dytsou/bump-patch-version@v0.1.0
+- uses: dytsou/bump-patch-version@v0
   with:
     package-json-path: packages/app/package.json
     base-branch: main
@@ -84,7 +86,7 @@ jobs:
 
 ## Action 輸入
 
-Composite Action：`dytsou/bump-patch-version@v0.1.0`
+Composite Action：`dytsou/bump-patch-version@v0`
 
 
 | 名稱 | 必填 | 預設 | 說明 |
