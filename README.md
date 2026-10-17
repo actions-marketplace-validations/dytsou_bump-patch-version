@@ -66,3 +66,7 @@ Pin by commit SHA in production (same style as other personal Actions):
 ```bash
 node lib/bump-package-json.test.mjs
 ```
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md). Please follow the [Code of Conduct](CODE_OF_CONDUCT.md).
