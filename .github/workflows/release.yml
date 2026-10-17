@@ -32,39 +32,12 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Resolve tag
-        id: tag
-        run: |
-          set -euo pipefail
-          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
-            TAG="${{ inputs.tag }}"
-          else
-            TAG="${GITHUB_REF_NAME}"
-          fi
-          if [[ ! "$TAG" =~ ^v[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?$ ]]; then
-            echo "error: tag must look like v1.2.3 (got: $TAG)" >&2
-            exit 1
-          fi
-          MAJOR="${TAG%%.*}" # v1.2.3 → v1
-          PRERELEASE=false
-          if [[ "$TAG" == *-* ]]; then
-            PRERELEASE=true
-          fi
-          echo "tag=$TAG" >>"$GITHUB_OUTPUT"
-          echo "major=$MAJOR" >>"$GITHUB_OUTPUT"
-          echo "prerelease=$PRERELEASE" >>"$GITHUB_OUTPUT"
-          echo "Resolved tag=$TAG major=$MAJOR prerelease=$PRERELEASE"
-
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64 # v3.0.3
+      - name: GitHub Release
+        uses: dytsou/release/github@bd0a18d5c09de51824b5d4917401021c43167caa # v1.0.0 (@v1)
         with:
-          tag_name: ${{ steps.tag.outputs.tag }}
-          name: ${{ steps.tag.outputs.tag }}
-          prerelease: ${{ steps.tag.outputs.prerelease == 'true' }}
-          draft: false
-          generate_release_notes: true
+          tag: ${{ inputs.tag }}
           body: |
-            ## Bump Patch Version ${{ steps.tag.outputs.tag }}
+            ## Bump Patch Version __TAG__
 
             Bump the **patch** version in `package.json` and open a pull request.
 
@@ -94,10 +67,10 @@ jobs:
                       fetch-depth: 0
                       fetch-tags: true
 
-                  - uses: dytsou/bump-patch-version@${{ steps.tag.outputs.major }}
+                  - uses: dytsou/bump-patch-version@__MAJOR__
             ```
 
-            Pin the major tag (`@${{ steps.tag.outputs.major }}`) for floating updates within this major, or pin `@${{ steps.tag.outputs.tag }}` for a fixed release. Prefer a commit SHA in production.
+            Pin the major tag (`@__MAJOR__`) for floating updates within this major, or pin `@__TAG__` for a fixed release. Prefer a commit SHA in production.
 
             ### Inputs
 
@@ -113,18 +86,3 @@ jobs:
             - Bump edits `package.json` only (no npm lifecycle scripts, no lockfile updates).
             - Fails if the base branch has no commits after the latest merged tag (continues when there are no tags yet).
             - Docs: [README](https://github.com/dytsou/bump-patch-version#readme) · [繁體中文](https://github.com/dytsou/bump-patch-version/blob/main/README-zh.md)
-
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Move major version tag
-        if: steps.tag.outputs.prerelease != 'true'
-        run: |
-          set -euo pipefail
-          TAG="${{ steps.tag.outputs.tag }}"
-          MAJOR="${{ steps.tag.outputs.major }}"
-          git fetch origin "refs/tags/${TAG}:refs/tags/${TAG}"
-          git tag -f "$MAJOR" "$TAG"
-          git push -f origin "refs/tags/${MAJOR}"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
