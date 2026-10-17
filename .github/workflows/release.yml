@@ -106,7 +106,7 @@ jobs:
             | `package-json-path` | `package.json` | Path relative to workspace |
             | `base-branch` | `main` | Tag-ahead check + PR base |
             | `labels` | `ci, maintenance` | PR labels |
-            | `token` | `${{ github.token }}` | Token for create-pull-request |
+            | `token` | `github.token` | Token for create-pull-request |
 
             ### Notes
 
