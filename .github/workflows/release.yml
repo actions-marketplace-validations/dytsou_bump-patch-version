@@ -33,7 +33,7 @@ jobs:
           fetch-depth: 0
 
       - name: GitHub Release
-        uses: dytsou/release/github@bd0a18d5c09de51824b5d4917401021c43167caa # v1.0.0 (@v1)
+        uses: dytsou/release/github@f4ac7961c8c67fc6887ce2265a19d01929960ce5 # v1.0.0 (@v1)
         with:
           tag: ${{ inputs.tag }}
           body: |
